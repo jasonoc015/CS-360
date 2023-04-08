@@ -66,26 +66,4 @@ public class ProfileActivity extends AppCompatActivity {
     private void handleToggleSmsButton(){
         // FIXME: implement this
     }
-
-    /**
-     * Handle the App bar being clicked.
-     * @param item The menu item that was selected.
-     *
-     * @return bool
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.profileIcon) {
-            // FIXME: route to profile activity
-            return true;
-        }
-        else{
-            // FIXME: the thing that was clicked was unrecognized
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    // note that we do not need the profile icon in app bar here because we are already in
-    // the profile section
 }

@@ -27,8 +27,6 @@ public class AddWeightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_weight);
 
-        //  FIXME: unhide the delete button?
-
         // initialize date picker
         mDatePicker = findViewById(R.id.datePicker);
 
