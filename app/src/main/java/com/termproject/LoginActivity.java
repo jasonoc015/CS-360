@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
 
     private WeightsDatabase mWeightsDatabase;
+    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private Toolbar mToolbar;
     private EditText mUsernameInput;
     private EditText mPasswordInput;
@@ -53,9 +54,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // validate the login with the database
         if (mWeightsDatabase.validateLogin(usernameInput, passwordInput)){
+            // activate them as the authenticated user
+            AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
+            mAuthManager.setUser(newUser);
+
             // route them to the home screen and pass username
             Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra("username", usernameInput);
             LoginActivity.this.startActivity(intent);
         }
         else{
@@ -78,9 +82,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // try creating a new account
         if (mWeightsDatabase.createAccount(usernameInput, passwordInput)){
+            // activate them as the authenticated user
+            AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
+            mAuthManager.setUser(newUser);
+
             // route them to the home screen and pass username
             Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra("username", usernameInput);
             LoginActivity.this.startActivity(intent);
         }
         else{

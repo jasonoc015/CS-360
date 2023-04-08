@@ -127,7 +127,9 @@ public class WeightsDatabase extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             // return the goal of the login entry
-            return cursor.getFloat(2);
+            float goal = cursor.getFloat(2);
+            cursor.close();
+            return goal;
         }
         else{
             throw new RuntimeException("invalid username");
@@ -149,8 +151,9 @@ public class WeightsDatabase extends SQLiteOpenHelper {
             values.put(LoginTable.COL_USERNAME, username);
             values.put(LoginTable.COL_PASSWORD, password);
             values.put(LoginTable.COL_GOAL, goal);
-            db.update(LoginTable.TABLE, values,
-                    LoginTable.COL_USERNAME + " = " + username, null);
+            db.update(LoginTable.TABLE, values,LoginTable.COL_USERNAME + " = ?",
+                    new String[] {username});
+            cursor.close();
         }
         else{
             throw new RuntimeException("invalid username");
@@ -201,6 +204,7 @@ public class WeightsDatabase extends SQLiteOpenHelper {
             entry.setWeight(cursor.getFloat(2));
             entry.setUsername(cursor.getString(3));
         }
+        cursor.close();
 
         return entry;
     }
@@ -237,8 +241,8 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         values.put(WeightsTable.COL_DATE, entry.getDate());
         values.put(WeightsTable.COL_WEIGHT, entry.getWeight());
         values.put(WeightsTable.COL_USERNAME, entry.getUsername());
-        db.update(WeightsTable.TABLE, values,
-                WeightsTable.COL_ID + " = " + entry.getId(), null);
+        db.update(WeightsTable.TABLE, values,WeightsTable.COL_ID + " = ?",
+                new String[] {String.valueOf(entry.getId())});
     }
 
     public void removeEntry(Entry entry){

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class SetGoalActivity extends AppCompatActivity {
 
-    private String mCurrentUsername;
+    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private WeightsDatabase mWeightsDatabase;
     private Toolbar mToolbar;
     private EditText mNewGoalInput;
@@ -25,20 +25,6 @@ public class SetGoalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_goal);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mCurrentUsername = extras.getString("username");
-        }
-        else {
-            // check saved instance state
-            try{
-                mCurrentUsername = savedInstanceState.getString("username");
-            }
-            catch (RuntimeException e){
-                throw new RuntimeException();
-            }
-        }
-
         // singleton
         mWeightsDatabase = WeightsDatabase.getInstance(getApplicationContext());
 
@@ -48,7 +34,7 @@ public class SetGoalActivity extends AppCompatActivity {
 
         // initialize edit text
         mNewGoalInput = findViewById(R.id.newGoalDecimal);
-        float currentGoal = mWeightsDatabase.getGoal(mCurrentUsername);
+        float currentGoal = mWeightsDatabase.getGoal(mAuthManager.getUser().getUsername());
         if (currentGoal != 0.0){
             mNewGoalInput.setText(String.valueOf(currentGoal));
         }
@@ -75,11 +61,10 @@ public class SetGoalActivity extends AppCompatActivity {
             float newGoal = parseFloat(inputValue);
 
             // set the new goal in the database
-            mWeightsDatabase.setGoal(newGoal, mCurrentUsername);
+            mWeightsDatabase.setGoal(newGoal, mAuthManager.getUser().getUsername());
 
             // redirect to the profile screen
             Intent intent = new Intent(this, ProfileActivity.class);
-            intent.putExtra("username", mCurrentUsername);
             finish();
             SetGoalActivity.this.startActivity(intent);
         }

@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 public class AddWeightActivity extends AppCompatActivity {
 
-    private String mCurrentUsername;
+    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private WeightsDatabase mWeightsDatabase;
     private Toolbar mToolbar;
     private DatePicker mDatePicker;
@@ -31,7 +31,7 @@ public class AddWeightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_weight);
 
-        //  - unhide the delete button?
+        //  FIXME: unhide the delete button?
 
         // initialize date picker
         mDatePicker = findViewById(R.id.datePicker);
@@ -54,17 +54,6 @@ public class AddWeightActivity extends AppCompatActivity {
         if (intent.hasExtra("weight")) {
             // set weight value text
             mWeightInput.setText(String.valueOf(extras.getFloat("weight")));
-        }
-        if(intent.hasExtra("username")){
-            mCurrentUsername = extras.getString("username");
-        }
-        else{
-            try{
-                mCurrentUsername = savedInstanceState.getString("username");
-            }
-            catch (RuntimeException e){
-                throw new RuntimeException();
-            }
         }
 
         // singleton
@@ -115,14 +104,21 @@ public class AddWeightActivity extends AppCompatActivity {
             // build entry
             entry.setDate(formattedDate);
             entry.setWeight(weight);
-            entry.setUsername(mCurrentUsername);
+            entry.setUsername(mAuthManager.getUser().getUsername());
 
             // call database add
             mWeightsDatabase.addEntry(entry);
 
+            // check if user has hit their goal
+            if (weight < mWeightsDatabase.getGoal(mAuthManager.getUser().getUsername())){
+                // FIXME: check notifications enabled
+                String text = getString(R.string.congrats);
+                Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
             // redirect to the home screen to view changes
             Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra("username", mCurrentUsername);
             finish();
             AddWeightActivity.this.startActivity(intent);
         }
@@ -150,14 +146,13 @@ public class AddWeightActivity extends AppCompatActivity {
         // build entry
         entry.setDate(formattedDate);
         entry.setWeight(weight);
-        entry.setUsername(mCurrentUsername);
+        entry.setUsername(mAuthManager.getUser().getUsername());
 
         // call database delete
         mWeightsDatabase.removeEntry(entry);
 
         // redirect to the home screen to view changes
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("username", mCurrentUsername);
         finish();
         AddWeightActivity.this.startActivity(intent);
     }

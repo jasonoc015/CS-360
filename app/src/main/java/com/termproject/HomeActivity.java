@@ -26,7 +26,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private String mCurrentUsername;
+    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private Toolbar mToolbar;
     private RecyclerView mWeightsList;
     private FloatingActionButton mFAB;
@@ -35,25 +35,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        // https://stackoverflow.com/questions/4186021/how-to-start-new-activity-on-button-click
-        // FIXME: load extras from the intent
-        //  - don't forget to pass the username from login using the putExtra()
-
-        // try loading username
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mCurrentUsername = extras.getString("username");
-        }
-        else {
-            // check saved instance state
-            try{
-                mCurrentUsername = savedInstanceState.getString("username");
-            }
-            catch (RuntimeException e){
-                throw new RuntimeException();
-            }
-        }
 
         // initialize toolbar
         mToolbar = findViewById(R.id.toolBar);
@@ -64,7 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         mWeightsList.setLayoutManager((new LinearLayoutManager(getApplicationContext())));
         // send weights to recycler view
         EntryAdapter adapter = new EntryAdapter(
-                WeightsDatabase.getInstance(getApplicationContext()).getEntries(mCurrentUsername));
+                WeightsDatabase.getInstance(getApplicationContext()).getEntries(
+                        mAuthManager.getUser().getUsername()));
         mWeightsList.setAdapter(adapter);
 
         // initialize fab
@@ -77,7 +59,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         // save username to saved instance state bundle
-        savedInstanceState.putString("username", mCurrentUsername);
+        savedInstanceState.putString("username", mAuthManager.getUser().getUsername());
     }
 
     /**
@@ -87,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     private void handleFloatingActionButton(){
         // launch the add weight activity
         Intent intent = new Intent(this, AddWeightActivity.class);
-        intent.putExtra("username", mCurrentUsername);
+        intent.putExtra("username", mAuthManager.getUser().getUsername());
         HomeActivity.this.startActivity(intent);
     }
 
@@ -103,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.profileIcon) {
             // launch the add weight activity
             Intent intent = new Intent(this, ProfileActivity.class);
-            intent.putExtra("username", mCurrentUsername);
+            intent.putExtra("username", mAuthManager.getUser().getUsername());
             HomeActivity.this.startActivity(intent);
             return true;
         }
@@ -151,7 +133,6 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, AddWeightActivity.class);
             intent.putExtra("date", mEntry.getDate());
             intent.putExtra("weight", mEntry.getWeight());
-            intent.putExtra("username", mEntry.getUsername());
             startActivity(intent);
         }
     }

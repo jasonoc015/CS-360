@@ -27,4 +27,6 @@
     <string name="incorrect_create">Account Creation Failed!</string>
     <string name="empty_input">Please enter a value!</string>
 
+    <string name="congrats">Congratulations on reaching your goal!</string>
+
 </resources>

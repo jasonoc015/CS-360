@@ -12,7 +12,7 @@ import android.widget.ToggleButton;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private String mCurrentUsername;
+    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private WeightsDatabase mWeightsDatabase;
     private Toolbar mToolbar;
     private TextView mGoalWeightDisplay;
@@ -24,20 +24,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mCurrentUsername = extras.getString("username");
-        }
-        else {
-            // check saved instance state
-            try{
-                mCurrentUsername = savedInstanceState.getString("username");
-            }
-            catch (RuntimeException e){
-                throw new RuntimeException();
-            }
-        }
-
         // singleton
         mWeightsDatabase = WeightsDatabase.getInstance(getApplicationContext());
 
@@ -47,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // initialize text view
         mGoalWeightDisplay = findViewById(R.id.goalWeight);
-        float currentGoal = mWeightsDatabase.getGoal(mCurrentUsername);
+        float currentGoal = mWeightsDatabase.getGoal(mAuthManager.getUser().getUsername());
         if (currentGoal != 0.0){
             mGoalWeightDisplay.setText(String.valueOf(currentGoal));
         }
@@ -70,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
      **/
     private void handleEditGoalButton(){
         Intent intent = new Intent(this, SetGoalActivity.class);
-        intent.putExtra("username", mCurrentUsername);
         finish();
         ProfileActivity.this.startActivity(intent);
     }
