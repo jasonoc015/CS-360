@@ -1,7 +1,5 @@
 package com.termproject;
 
-import java.util.Date;
-
 public class Entry {
     private long id;
     private String date;

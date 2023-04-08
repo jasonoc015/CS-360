@@ -2,17 +2,13 @@ package com.termproject;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
-import kotlin.collections.ArrayDeque;
 
 public class WeightsDatabase extends SQLiteOpenHelper {
     private static final int VERSION = 1;
