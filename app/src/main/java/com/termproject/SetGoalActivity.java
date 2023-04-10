@@ -42,8 +42,7 @@ public class SetGoalActivity extends AppCompatActivity {
     }
 
     /**
-     * OnClick Listener for the Submit button
-     *
+     * OnClick Listener for the Submit button.
      **/
     private void handleSubmitButton(){
         // acquire value from input

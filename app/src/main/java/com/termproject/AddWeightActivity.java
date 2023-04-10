@@ -120,7 +120,6 @@ public class AddWeightActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Create button
-     *
      **/
     private void handleDeleteButton(){
         Entry entry = new Entry();

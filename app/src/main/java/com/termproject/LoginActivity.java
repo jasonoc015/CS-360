@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Login button
-     *
      **/
     private void handleLoginButton(){
         // acquire the input username and password from inputs
@@ -72,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Create button
-     *
      **/
     private void handleCreateButton(){
         // acquire the input username and password from inputs

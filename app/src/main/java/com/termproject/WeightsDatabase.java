@@ -78,7 +78,11 @@ public class WeightsDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     * If the account and password match - true/else false
+     * Validate the login credentials.
+     * @param username - the username of the account.
+     * @param password - the password of the account.
+     *
+     * @return - the validity of the credentials.
      */
     public boolean validateLogin(String username, String password){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -99,7 +103,11 @@ public class WeightsDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     * If the account and password match - true/else false
+     * Create a new account.
+     * @param username - the username of the account.
+     * @param password - the password of the account.
+     *
+     * @return - success of account creation.
      */
     public boolean createAccount(String username, String password){
         // check that account already exists
@@ -115,6 +123,12 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         return id != -1;
     }
 
+    /**
+     * Get the goal for a user.
+     * @param username - the username of the user.
+     *
+     * @return - the goal for that user.
+     */
     public float getGoal(String username){
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "select * from " + LoginTable.TABLE +
@@ -132,6 +146,11 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Sets the goal for a suer
+     * @param goal - the new goal.
+     * @param username - the username of the user.
+     */
     public void setGoal(float goal, String username){
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "select * from " + LoginTable.TABLE +
@@ -158,7 +177,10 @@ public class WeightsDatabase extends SQLiteOpenHelper {
 
 
     /**
-     * If the account and password match - true/else false
+     * Get all entries for a user.
+     * @param username - the username of the user.
+     *
+     * @return - a list of entries.
      */
     public List<Entry> getEntries(String username){
         List<Entry> entries = new ArrayList<>();
@@ -183,6 +205,13 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         return entries;
     }
 
+    /**
+     * Get an entry.
+     * @param date - the date of the entry.
+     * @param username - the username of the entry.
+     *
+     * @return -
+     */
     public Entry getEntry(String date, String username){
         // this is used to check existence of an entry
         Entry entry = null;

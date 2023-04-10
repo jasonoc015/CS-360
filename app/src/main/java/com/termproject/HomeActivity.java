@@ -62,7 +62,6 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Floating Action Button
-     *
      **/
     private void handleFloatingActionButton(){
         // launch the add weight activity
@@ -73,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * Handle the App bar being clicked.
-     * @param item The menu item that was selected.
+     * @param item - the menu item that was selected.
      *
      * @return bool
      */

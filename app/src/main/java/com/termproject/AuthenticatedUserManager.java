@@ -5,6 +5,9 @@ public class AuthenticatedUserManager {
 
     private static AuthenticatedUserManager mInstance;
 
+    /**
+     * Default constructor.
+     */
     private AuthenticatedUserManager(){
 
     }
@@ -12,7 +15,6 @@ public class AuthenticatedUserManager {
     /**
      * Get singleton instance.
      * @return - the singleton instance.
-     * @throws - IllegalStateException if not initialized.
      */
     public static AuthenticatedUserManager getInstance(){
         if (mInstance == null){

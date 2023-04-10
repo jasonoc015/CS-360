@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Edit Goal button
-     *
      **/
     private void handleEditGoalButton(){
         Intent intent = new Intent(this, SetGoalActivity.class);
@@ -61,7 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     /**
      * OnClick Listener for the Toggle SMS button
-     *
      **/
     private void handleToggleSmsButton(){
         // FIXME: implement this
