@@ -3,6 +3,7 @@ package com.termproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -11,8 +12,9 @@ import android.widget.ToggleButton;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
-    private WeightsDatabase mWeightsDatabase;
+    private static AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
+    private static NotificationsManager mNotificationsManager = NotificationsManager.getInstance();
+    private static WeightsDatabase mWeightsDatabase;
     private Toolbar mToolbar;
     private TextView mGoalWeightDisplay;
     private Button mEditGoalButton;
@@ -23,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // singleton
+        // singleton database api
         mWeightsDatabase = WeightsDatabase.getInstance(getApplicationContext());
 
         // initialize toolbar
@@ -46,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // initialize toggle button
         mEnableSmsToggleButton = findViewById(R.id.enableSmsToggleButton);
+        mEnableSmsToggleButton.setChecked(mNotificationsManager.getNotificationPreference());
         mEnableSmsToggleButton.setOnClickListener(v -> handleToggleSmsButton());
     }
 
@@ -53,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
      * OnClick Listener for the Edit Goal button
      **/
     private void handleEditGoalButton(){
+        // reroute to the profile activity
         Intent intent = new Intent(this, SetGoalActivity.class);
         finish();
         ProfileActivity.this.startActivity(intent);
@@ -62,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
      * OnClick Listener for the Toggle SMS button
      **/
     private void handleToggleSmsButton(){
-        // FIXME: implement this
+        // updated the notification in shared preferences
+        mNotificationsManager.saveNotificationPreference(mEnableSmsToggleButton.isChecked());
     }
 }

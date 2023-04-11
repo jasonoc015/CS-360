@@ -24,7 +24,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
+    private final AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private Toolbar mToolbar;
     private RecyclerView mWeightsList;
     private FloatingActionButton mFAB;
@@ -33,6 +33,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // initialize the notifications manager with the current user
+        NotificationsManager.initialize(getApplicationContext(),
+                mAuthManager.getUser().getUsername());
+        NotificationsManager notificationsManager = NotificationsManager.getInstance();
+        notificationsManager.setUsername(mAuthManager.getUser().getUsername());
 
         // initialize toolbar
         mToolbar = findViewById(R.id.toolBar);
@@ -80,9 +86,15 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.profileIcon) {
-            // launch the add weight activity
+            // launch the profile activity
             Intent intent = new Intent(this, ProfileActivity.class);
-            intent.putExtra("username", mAuthManager.getUser().getUsername());
+            HomeActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(item.getItemId() == R.id.logoutIcon){
+            // launch the login activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            finish();
             HomeActivity.this.startActivity(intent);
             return true;
         }

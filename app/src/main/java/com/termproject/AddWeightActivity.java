@@ -14,7 +14,8 @@ import java.util.Calendar;
 
 public class AddWeightActivity extends AppCompatActivity {
 
-    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
+    private final AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
+    private final NotificationsManager mNotificationsManager = NotificationsManager.getInstance();
     private WeightsDatabase mWeightsDatabase;
     private Toolbar mToolbar;
     private DatePicker mDatePicker;
@@ -105,10 +106,12 @@ public class AddWeightActivity extends AppCompatActivity {
 
             // check if user has hit their goal
             if (weight < mWeightsDatabase.getGoal(mAuthManager.getUser().getUsername())){
-                // FIXME: check notifications enabled
-                String text = getString(R.string.congrats);
-                Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-                toast.show();
+                // check notifications enabled
+                if (mNotificationsManager.getNotificationPreference()){
+                    String text = getString(R.string.congrats);
+                    Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
 
             // redirect to the home screen to view changes

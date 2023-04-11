@@ -5,5 +5,10 @@
     <item android:id="@+id/profileIcon"
         android:title="@string/profile_title"
         android:icon="@drawable/profile_icon"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/logoutIcon"
+        android:title="@string/logout_title"
+        android:icon="@drawable/logout_icon"
+        app:showAsAction="ifRoom"/>
 </menu>

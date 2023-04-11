@@ -3,6 +3,7 @@
     <string name="login_title">Welcome To Weight Tracker!</string>
     <string name="recents_title">Recents</string>
     <string name="profile_title">Profile</string>
+    <string name="logout_title">Logout</string>
     <string name="set_goal_title">Set a Goal</string>
     <string name="add_weight_title">Add or Edit a Weight</string>
 
@@ -16,7 +17,7 @@
     <string name="submit_btn_label">Submit</string>
     <string name="edit_goal_btn_label">Edit</string>
     <string name="enable_sms_btn_label">Enable</string>
-    <string name="enable_sms_label">Enable SMS Notifications</string>
+    <string name="enable_sms_label">Enable Notifications</string>
     <string name="decimal_hint">195.7</string>
     <string name="today">Today</string>
     <string name="notset">not set</string>

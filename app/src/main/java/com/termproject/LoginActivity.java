@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
 
     private WeightsDatabase mWeightsDatabase;
-    private AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
+    private final AuthenticatedUserManager mAuthManager = AuthenticatedUserManager.getInstance();
     private Toolbar mToolbar;
     private EditText mUsernameInput;
     private EditText mPasswordInput;
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // route them to the home screen and pass username
             Intent intent = new Intent(this, HomeActivity.class);
+            finish();
             LoginActivity.this.startActivity(intent);
         }
         else{
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // route them to the home screen and pass username
             Intent intent = new Intent(this, HomeActivity.class);
+            finish();
             LoginActivity.this.startActivity(intent);
         }
         else{
