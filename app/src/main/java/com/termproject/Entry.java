@@ -14,20 +14,6 @@ public class Entry {
     }
 
     /**
-     * Overloaded constructor.
-     * @param id - the id number of the entry.
-     * @param date - the date of the entry.
-     * @param weight - the weight of the entry.
-     * @param username - the username of the entry.
-     */
-    public Entry(long id, String date, float weight, String username) {
-        this.id = id;
-        this.date = date;
-        this.weight = weight;
-        this.username = username;
-    }
-
-    /**
      * Sets the id.
      * @param id - the new id.
      */

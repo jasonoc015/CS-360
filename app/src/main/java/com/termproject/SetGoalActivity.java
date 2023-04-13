@@ -45,18 +45,18 @@ public class SetGoalActivity extends AppCompatActivity {
      * OnClick Listener for the Submit button.
      **/
     private void handleSubmitButton(){
-        // acquire value from input
+        // acquire weight value from input
         String inputValue = String.valueOf(mNewGoalInput.getText());
         if (inputValue.equals("")){
+            // warn user that they must enter a value
             String text = getString(R.string.empty_input);
             Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
             toast.show();
         }
         else {
-            // acquire the value from the input text
             float newGoal = parseFloat(inputValue);
 
-            // set the new goal in the database
+            // call database set
             mWeightsDatabase.setGoal(newGoal, mAuthManager.getUser().getUsername());
 
             // redirect to the profile screen

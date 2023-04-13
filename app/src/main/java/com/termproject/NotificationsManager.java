@@ -79,5 +79,4 @@ public class NotificationsManager {
             mEditor.apply();
         }
     }
-
 }

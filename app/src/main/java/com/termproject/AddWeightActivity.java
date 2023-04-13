@@ -3,6 +3,8 @@ package com.termproject;
 import static java.lang.Float.parseFloat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -34,7 +36,7 @@ public class AddWeightActivity extends AppCompatActivity {
         // initialize edit text
         mWeightInput = findViewById(R.id.newWeightDecimal);
 
-        // try loading username
+        // load date and weight from extras
         Intent intent = getIntent();
         Bundle extras = getIntent().getExtras();
         if (intent.hasExtra("date")){
@@ -74,27 +76,26 @@ public class AddWeightActivity extends AppCompatActivity {
 
         Entry entry = new Entry();
 
-        // compile spinner values to string
+        // compile date picker values to string
         int day  = mDatePicker.getDayOfMonth();
         int month= mDatePicker.getMonth();
         int year = mDatePicker.getYear();
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd");
         String formattedDate = sdf.format(calendar.getTime());
 
-        // get weight from input
-
-        // acquire value from input
+        // acquire weight value from input
         String inputValue = String.valueOf(mWeightInput.getText());
         if (inputValue.equals("")){
+            // warn user that they must enter a value
             String text = getString(R.string.empty_input);
             Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
             toast.show();
         }
         else{
-            // convert input value
-            float weight = parseFloat(String.valueOf(mWeightInput.getText()));
+            float weight = parseFloat(inputValue);
 
             // build entry
             entry.setDate(formattedDate);
@@ -114,7 +115,7 @@ public class AddWeightActivity extends AppCompatActivity {
                 }
             }
 
-            // redirect to the home screen to view changes
+            // launch the home activity to view changes
             Intent intent = new Intent(this, HomeActivity.class);
             finish();
             AddWeightActivity.this.startActivity(intent);
@@ -133,7 +134,8 @@ public class AddWeightActivity extends AppCompatActivity {
         int year = mDatePicker.getYear();
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd");
         String formattedDate = sdf.format(calendar.getTime());
 
         // get weight from input
@@ -147,7 +149,7 @@ public class AddWeightActivity extends AppCompatActivity {
         // call database delete
         mWeightsDatabase.removeEntry(entry);
 
-        // redirect to the home screen to view changes
+        // redirect to the home screen to view changes + kill current activity
         Intent intent = new Intent(this, HomeActivity.class);
         finish();
         AddWeightActivity.this.startActivity(intent);

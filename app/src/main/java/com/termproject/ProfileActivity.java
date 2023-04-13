@@ -3,9 +3,7 @@ package com.termproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -56,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
      * OnClick Listener for the Edit Goal button
      **/
     private void handleEditGoalButton(){
-        // reroute to the profile activity
+        // launch the profile activity + kill current activity
         Intent intent = new Intent(this, SetGoalActivity.class);
         finish();
         ProfileActivity.this.startActivity(intent);

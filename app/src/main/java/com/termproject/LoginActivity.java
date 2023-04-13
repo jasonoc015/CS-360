@@ -46,23 +46,23 @@ public class LoginActivity extends AppCompatActivity {
      * OnClick Listener for the Login button
      **/
     private void handleLoginButton(){
-        // acquire the input username and password from inputs
+        // acquire the username and password from inputs
         String usernameInput = String.valueOf(mUsernameInput.getText());
         String passwordInput = String.valueOf(mPasswordInput.getText());
 
         // validate the login with the database
         if (mWeightsDatabase.validateLogin(usernameInput, passwordInput)){
-            // activate them as the authenticated user
+            // activate this user as the authenticated user
             AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
             mAuthManager.setUser(newUser);
 
-            // route them to the home screen and pass username
+            // launch home activity + kill current activity
             Intent intent = new Intent(this, HomeActivity.class);
             finish();
             LoginActivity.this.startActivity(intent);
         }
         else{
-            // incorrect login
+            // notify user of incorrect login
             String text = getString(R.string.incorrect_login);
             Toast toast = Toast.makeText(getApplicationContext(),
                     text , Toast.LENGTH_SHORT);
@@ -74,23 +74,23 @@ public class LoginActivity extends AppCompatActivity {
      * OnClick Listener for the Create button
      **/
     private void handleCreateButton(){
-        // acquire the input username and password from inputs
+        // acquire the username and password from inputs
         String usernameInput = String.valueOf(mUsernameInput.getText());
         String passwordInput = String.valueOf(mPasswordInput.getText());
 
         // try creating a new account
         if (mWeightsDatabase.createAccount(usernameInput, passwordInput)){
-            // activate them as the authenticated user
+            // activate this user as the authenticated user
             AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
             mAuthManager.setUser(newUser);
 
-            // route them to the home screen and pass username
+            // launch home activity + kill current activity
             Intent intent = new Intent(this, HomeActivity.class);
             finish();
             LoginActivity.this.startActivity(intent);
         }
         else{
-            // account creation failed
+            // notify user that account creation failed
             String text = getString(R.string.incorrect_create);
             Toast toast = Toast.makeText(getApplicationContext(),
                     text , Toast.LENGTH_SHORT);

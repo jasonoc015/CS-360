@@ -1,13 +1,13 @@
 package com.termproject;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,13 +59,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-        // save username to saved instance state bundle
-        savedInstanceState.putString("username", mAuthManager.getUser().getUsername());
-    }
-
     /**
      * OnClick Listener for the Floating Action Button
      **/
@@ -92,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
         else if(item.getItemId() == R.id.logoutIcon){
-            // launch the login activity
+            // launch the login activity + kill this activity
             Intent intent = new Intent(this, LoginActivity.class);
             finish();
             HomeActivity.this.startActivity(intent);
@@ -124,8 +117,8 @@ public class HomeActivity extends AppCompatActivity {
             mEntry = entry;
 
             // check current day for "Today" label
-            String todayTimeStamp = new SimpleDateFormat("yyyy-MM-dd").format(
-                    Calendar.getInstance().getTime());
+            @SuppressLint("SimpleDateFormat") String todayTimeStamp = new SimpleDateFormat(
+                    "yyyy-MM-dd").format(Calendar.getInstance().getTime());
             if (entry.getDate().equals(todayTimeStamp)){
                 mTextView.setText(getString(R.string.weight_list_item, getString(R.string.today),
                         String.valueOf(entry.getWeight())));
@@ -138,7 +131,7 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view){
-            // Start QuestionActivity, indicating what subject was clicked
+            // launch the add weight activity with extras
             Intent intent = new Intent(HomeActivity.this, AddWeightActivity.class);
             intent.putExtra("date", mEntry.getDate());
             intent.putExtra("weight", mEntry.getWeight());

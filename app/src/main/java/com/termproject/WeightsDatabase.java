@@ -43,11 +43,13 @@ public class WeightsDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
+        // create the login table
         db.execSQL("create table " + LoginTable.TABLE + " (" +
                 LoginTable.COL_USERNAME + " primary key, " +
                 LoginTable.COL_PASSWORD + ", " +
                 LoginTable.COL_GOAL + " float" +
                 ")");
+        // create the weights table
         db.execSQL("create table " + WeightsTable.TABLE + " (" +
                 WeightsTable.COL_ID + " integer primary key autoincrement, " +
                 WeightsTable.COL_WEIGHT + " float, " +
@@ -98,7 +100,7 @@ public class WeightsDatabase extends SQLiteOpenHelper {
                 }
             }
         }
-        // account does not exist || bad username || bad password
+        // account does not exist or bad username or bad password
         return false;
     }
 
@@ -147,7 +149,7 @@ public class WeightsDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     * Sets the goal for a suer
+     * Sets the goal for a user.
      * @param goal - the new goal.
      * @param username - the username of the user.
      */
@@ -210,10 +212,9 @@ public class WeightsDatabase extends SQLiteOpenHelper {
      * @param date - the date of the entry.
      * @param username - the username of the entry.
      *
-     * @return -
+     * @return - the entry.
      */
     public Entry getEntry(String date, String username){
-        // this is used to check existence of an entry
         Entry entry = null;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -234,6 +235,10 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         return entry;
     }
 
+    /**
+     * Add an entry.
+     * @param entry - the entry to add.
+     */
     public void addEntry(Entry entry){
 
         Entry existingEntry = getEntry(entry.getDate(), entry.getUsername());
@@ -259,6 +264,10 @@ public class WeightsDatabase extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Edit an entry.
+     * @param entry - the entry to replace the current entry with.
+     */
     public void editEntry(Entry entry){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -270,6 +279,10 @@ public class WeightsDatabase extends SQLiteOpenHelper {
                 new String[] {String.valueOf(entry.getId())});
     }
 
+    /**
+     * Remove an entry.
+     * @param entry - the entry to remove.
+     */
     public void removeEntry(Entry entry){
         SQLiteDatabase db = getWritableDatabase();
         int result = db.delete(WeightsTable.TABLE, WeightsTable.COL_DATE + " = ?" +
