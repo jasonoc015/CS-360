@@ -50,20 +50,30 @@ public class LoginActivity extends AppCompatActivity {
         String usernameInput = String.valueOf(mUsernameInput.getText());
         String passwordInput = String.valueOf(mPasswordInput.getText());
 
-        // validate the login with the database
-        if (mWeightsDatabase.validateLogin(usernameInput, passwordInput)){
-            // activate this user as the authenticated user
-            AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
-            mAuthManager.setUser(newUser);
+        // check username exists
+        if (mWeightsDatabase.validateUsername(usernameInput)){
+            // validate the login with the database
+            if (mWeightsDatabase.validateLogin(usernameInput, passwordInput)){
+                // activate this user as the authenticated user
+                AuthenticatedUser newUser = new AuthenticatedUser(usernameInput);
+                mAuthManager.setUser(newUser);
 
-            // launch home activity + kill current activity
-            Intent intent = new Intent(this, HomeActivity.class);
-            finish();
-            LoginActivity.this.startActivity(intent);
+                // launch home activity + kill current activity
+                Intent intent = new Intent(this, HomeActivity.class);
+                finish();
+                LoginActivity.this.startActivity(intent);
+            }
+            else{
+                // notify user of incorrect login
+                String text = getString(R.string.incorrect_login);
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        text , Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
         else{
-            // notify user of incorrect login
-            String text = getString(R.string.incorrect_login);
+            // notify user of non-existent username
+            String text = getString(R.string.non_exist_login);
             Toast toast = Toast.makeText(getApplicationContext(),
                     text , Toast.LENGTH_SHORT);
             toast.show();

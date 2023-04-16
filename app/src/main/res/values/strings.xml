@@ -24,6 +24,7 @@
 
     <string name="weight_list_item">%s: %s</string>
 
+    <string name="non_exist_login">Username Does Not Exist!</string>
     <string name="incorrect_login">Incorrect Login Information!</string>
     <string name="incorrect_create">Account Creation Failed!</string>
     <string name="empty_input">Please enter a value!</string>

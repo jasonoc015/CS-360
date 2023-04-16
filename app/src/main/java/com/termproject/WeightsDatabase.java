@@ -80,6 +80,21 @@ public class WeightsDatabase extends SQLiteOpenHelper {
     }
 
     /**
+     * Validate the username exists.
+     * @param username - the username of the account.
+     *
+     * @return - the validity of the credentials.
+     */
+    public boolean validateUsername(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select * from " + LoginTable.TABLE + " where " +
+                LoginTable.COL_USERNAME + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[] {username});
+
+        return cursor.moveToFirst();
+    }
+
+    /**
      * Validate the login credentials.
      * @param username - the username of the account.
      * @param password - the password of the account.
@@ -101,6 +116,7 @@ public class WeightsDatabase extends SQLiteOpenHelper {
             }
         }
         // account does not exist or bad username or bad password
+        // note: does not exist should first be checked by validateUsername()
         return false;
     }
 
